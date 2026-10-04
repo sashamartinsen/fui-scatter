@@ -1,9 +1,9 @@
 import {PRESETS,DEFAULTS,createLayer,compose,randomizeLayerSeeds} from './engine.js';
-import {parseAsset,escape} from './svg-assets.js';
-import {rasterComposition,postprocess,createPreviewRenderer} from './render.js';
+import {parseAsset,escape} from './svg-assets.js?v=2';
+import {rasterComposition,postprocess,createPreviewRenderer} from './render.js?v=2';
 import {DEFAULT_EFFECTS,capturePreset,validatePreset,restorePreset,localPresets,storePreset,downloadPreset} from './composition-presets.js';
-import {vectorControls,rasterControls} from './fx-panels.js';
-import {library,initializeLibrary,libraryAsset,importLibraryFile,libraryOptions} from './shape-library.js?v=2';
+import {vectorControls,rasterControls} from './fx-panels.js?v=2';
+import {library,initializeLibrary,libraryAsset,importLibraryFile,libraryOptions} from './shape-library.js?v=3';
 const $=s=>document.querySelector(s);
 const state={width:1200,height:1200,background:'#0d1619',blend:'normal',selected:1,nextId:4,tab:'vector',zoom:1,exportScale:1,layers:[],effects:{...DEFAULT_EFFECTS}};
 let composition=[],revision=0,timer,toastTimer,fileLayerId,previewScene,previewKey,libraryBusy=false,compositionKey;
@@ -13,12 +13,12 @@ let presetDefaults={};try{presetDefaults=JSON.parse(localStorage.getItem('scatte
 const current=()=>state.layers.find(l=>l.id===state.selected);
 const input=(key,value,options='')=>`<input type="number" data-key="${key}" value="${value}" ${options}>`;
 const select=(key,value,options)=>`<select data-key="${key}">${options.map(([v,label])=>`<option value="${v}" ${v===value?'selected':''}>${label}</option>`).join('')}</select>`;
-const number=(label,key,value,options)=>`<label>${label}${input(key,value,options)}</label>`;
+const number=(label,key,value,options)=>`<label><span class="field-label">${label}</span>${input(key,value,options)}</label>`;
 const modes=[['normal','Normal'],['additive','Additive'],['multiply','Multiply']];
 
 function dualRange(label,lowKey,highKey,low,high,min,max,step){
  const percent=v=>(v-min)/(max-min)*100;
- return `<div class="range-field" data-low="${lowKey}" data-high="${highKey}" role="group" aria-label="${label} range"><div class="range-heading">${label}<span>Min — Max</span></div><div class="pair"><label>Min${input(lowKey,low,`aria-label="${label} minimum" min="${min}" max="${max}" step="${step}"`)}</label><label>Max${input(highKey,high,`aria-label="${label} maximum" min="${min}" max="${max}" step="${step}"`)}</label></div><div class="dual-range" style="--low:${percent(low)}%;--high:${percent(high)}%"><input type="range" aria-label="${label} minimum slider" data-key="${lowKey}" min="${min}" max="${max}" step="${step}" value="${low}"><input type="range" aria-label="${label} maximum slider" data-key="${highKey}" min="${min}" max="${max}" step="${step}" value="${high}"></div><div class="range-limits"><span>${min}</span><span>${max}</span></div></div>`;
+ return `<div class="range-field" data-low="${lowKey}" data-high="${highKey}" role="group" aria-label="${label} range"><div class="range-heading">${label}<span>Min — Max</span></div><div class="pair"><label><span class="field-label">Min</span>${input(lowKey,low,`aria-label="${label} minimum" min="${min}" max="${max}" step="${step}"`)}</label><label><span class="field-label">Max</span>${input(highKey,high,`aria-label="${label} maximum" min="${min}" max="${max}" step="${step}"`)}</label></div><div class="dual-range" style="--low:${percent(low)}%;--high:${percent(high)}%"><input type="range" aria-label="${label} minimum slider" data-key="${lowKey}" min="${min}" max="${max}" step="${step}" value="${low}"><input type="range" aria-label="${label} maximum slider" data-key="${highKey}" min="${min}" max="${max}" step="${step}" value="${high}"></div></div>`;
 }
 function syncRanges(){
  const l=current();if(!l)return;
@@ -28,19 +28,18 @@ function syncRanges(){
  }
 }
 function range(label,key,value,min,max,step=1,scope='layer'){return `<div><div class="field-top"><label for="${scope}-${key}">${label}</label><input class="value-input" aria-label="${label}: exact value" type="number" data-value="${key}" data-key="${key}" data-scope="${scope}" min="${min}" max="${max}" step="${step}" value="${value}"></div><input id="${scope}-${key}" type="range" data-key="${key}" data-scope="${scope}" min="${min}" max="${max}" step="${step}" value="${value}"></div>`}
-function offsets(names){const l=current();return `<details><summary>Seed offsets</summary>${names.map(([key,label])=>`<label class="offset">${label}<input type="number" data-offset="${key}" min="-2147483647" max="2147483647" step="1" value="${l.offsets[key]}"></label>`).join('')}</details>`}
 function notify(message){$('#toast').textContent=message;$('#toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').hidden=true,5500)}
 function paintLayers(){
  $('#layer-count').textContent=state.layers.length;
  $('#randomize-all').disabled=state.layers.length===0;
- $('#layers').innerHTML=[...state.layers].reverse().map(l=>`<div class="layer ${l.id===state.selected?'selected':''} ${!l.visible?'off':''}" data-id="${l.id}" tabindex="0" role="button" aria-label="Select ${escape(l.name)}" aria-pressed="${l.id===state.selected}"><span class="layer-swatch" style="color:${l.color};background:${l.color}15">${l.preset==='grid'?'▦':l.preset==='kaleidoscope'?'✳':'✣'}</span><div class="layer-copy"><strong>${escape(l.name)}</strong><small>${escape(l.asset?.name||'Upload SVG')}</small></div><button class="visibility" data-action="visibility" aria-label="${l.visible?'Hide':'Show'} ${escape(l.name)}">${l.visible?'◉':'○'}</button><div class="layer-actions"><button data-action="up" aria-label="Move ${escape(l.name)} up" ${state.layers.indexOf(l)===state.layers.length-1?'disabled':''}>↑</button><button data-action="down" aria-label="Move ${escape(l.name)} down" ${state.layers.indexOf(l)===0?'disabled':''}>↓</button><button data-action="duplicate" aria-label="Duplicate ${escape(l.name)}">Duplicate</button></div></div>`).join('');
+ $('#layers').innerHTML=[...state.layers].reverse().map(l=>`<div class="layer ${l.id===state.selected?'selected':''} ${!l.visible?'off':''}" data-id="${l.id}" tabindex="0" role="button" aria-label="Select ${escape(l.name)}" aria-pressed="${l.id===state.selected}"><span class="layer-swatch" style="color:${l.color};background:${l.color}15">${l.preset==='grid'?'▦':l.preset==='kaleidoscope'?'✳':'✣'}</span><div class="layer-copy"><strong>${escape(l.name)}</strong><small>${escape(l.asset?.name||'Upload SVG')}</small></div><button class="visibility" data-action="visibility" aria-label="${l.visible?'Hide':'Show'} ${escape(l.name)}">${l.visible?'◉':'○'}</button><div class="layer-actions"><button data-action="up" aria-label="Move ${escape(l.name)} up" ${state.layers.indexOf(l)===state.layers.length-1?'disabled':''}>↑</button><button data-action="down" aria-label="Move ${escape(l.name)} down" ${state.layers.indexOf(l)===0?'disabled':''}>↓</button><button data-action="duplicate" aria-label="Duplicate ${escape(l.name)}">Duplicate</button><button data-action="delete" class="danger" aria-label="Delete ${escape(l.name)}">Delete</button></div></div>`).join('');
 }
 function paintInspector(){
  $('#vector-tab').classList.toggle('active',state.tab==='vector');$('#effects-tab').classList.toggle('active',state.tab==='effects');
  $('#inspector-title').textContent=state.tab==='effects'?'POST PROCESSING':'LAYER SETTINGS';
  const l=current();$('#selected-index').textContent=state.tab==='effects'?'FX':String(state.layers.indexOf(l)+1).padStart(2,'0');
  if(state.tab==='effects'){
-  const e=state.effects;$('#inspector').innerHTML=rasterControls(e,range)+`<section class="inspector-section"><div class="section-title">EXPORT</div><label>Scale<select id="export-scale">${[1,2,4].map(v=>`<option value="${v}" ${state.exportScale===v?'selected':''}>${v}× · ${state.width*v} × ${state.height*v} px</option>`).join('')}</select></label><button class="primary full" data-action="export">Download PNG</button><p class="hint">PNG includes all active vector and raster effects, in panel order.</p></section>`;return;
+  const e=state.effects;$('#inspector').innerHTML=rasterControls(e,range)+`<section class="inspector-section"><div class="section-title">EXPORT</div><label><span class="field-label">Scale</span><select id="export-scale">${[1,2,4].map(v=>`<option value="${v}" ${state.exportScale===v?'selected':''}>${v}× · ${state.width*v} × ${state.height*v} px</option>`).join('')}</select></label><button class="primary full" data-action="export">Download PNG</button><p class="hint">PNG includes all active vector and raster effects, in panel order.</p></section>`;return;
  }
  if(!l){$('#inspector').innerHTML='<section class="inspector-section"><p class="hint">Add a layer and upload an SVG.</p></section>';return}
  const source=l.asset;
@@ -49,7 +48,7 @@ function paintInspector(){
  if(l.preset==='kaleidoscope')placement+=range('Rays','sectors',l.sectors,2,32,1);
  placement+=`<div class="padding-controls" title="Insets apply to object centers. Mirrors use the inset area's center.">${l.paddingIndividual?'<span class="padding-heading">Edge padding, px</span>':`<label class="padding-global">Edge padding, px${input('padding',l.padding??0,`min="0" max="${Math.min(state.width,state.height)}" step="1"`)}</label>`}<label class="padding-toggle"><input type="checkbox" data-key="paddingIndividual" ${l.paddingIndividual?'checked':''}>Set individually</label>${l.paddingIndividual?[['Left','paddingLeft',state.width],['Right','paddingRight',state.width],['Top','paddingTop',state.height],['Bottom','paddingBottom',state.height]].map(([label,key,max])=>number(label,key,l[key],`min="0" max="${max}" step="1"`)).join(''):''}</div>`;
  const colorSpecific=l.colorMode==='hue'?`<div class="pair">${number('Hue min, °','hueMin',l.hueMin,'min="-180" max="180" step="1"')}${number('Hue max, °','hueMax',l.hueMax,'min="-180" max="180" step="1"')}</div>`:l.colorMode==='gradient'?`<label class="color-label">Second color<input type="color" data-key="color2" value="${l.color2}"><span>${l.color2.toUpperCase()}</span></label><p class="hint">Each object receives a random color between the two selected colors.</p>`:'';
- $('#inspector').innerHTML=`<section class="inspector-section"><label>Layer name<input type="text" data-key="name" maxlength="70" value="${escape(l.name)}"></label><div class="source-box"><span class="source-icon">◇</span><div><strong>${escape(source?.name||'No SVG selected')}</strong><small>${source?'Object groups: '+source.shapes.length:'One object group = one shape'}</small></div></div><label>SVG from library<select id="layer-library">${libraryOptions(source?.libraryId)}</select></label><button class="full" data-action="import">${source?'Replace SVG':'Import SVG'}</button></section><section class="inspector-section"><div class="section-title">DISTRIBUTION</div><div class="preset-options">${presets.map(([key,icon,label])=>`<button data-preset="${key}" class="${l.preset===key?'active':''}" aria-pressed="${l.preset===key}"><span>${icon}</span>${label}</button>`).join('')}</div><label>Global seed<div class="seed-row">${input('seed',l.seed,'min="-2147483647" max="2147483647" step="1"')}<button data-action="seed" aria-label="New seed">⟳</button></div></label>${placement}${offsets([['position','Position / fill'],['shape','Shape selection']])}</section><section class="inspector-section"><div class="section-title">SIZE & ROTATION</div>${dualRange('Size multiplier, ×','sizeMin','sizeMax',l.sizeMin,l.sizeMax,.01,10,.01)}<p class="hint">1× = original SVG size. Mirror copies share the same scale.</p><label>Rotation${select('rotation',l.rotation,[['none','No rotation'],['quarter','0° / 90° / 180° / 270°'],['free','Free 0–360°']])}</label>${offsets([['size','Size'],['rotation','Rotation']])}</section><section class="inspector-section"><div class="section-title">COLOR</div><label>Mode${select('colorMode',l.colorMode,[['solid','Solid'],['hue','Hue offset range'],['gradient','2 color gradient']])}</label><label class="color-label">Primary color<input type="color" data-key="color" value="${l.color}"><span>${l.color.toUpperCase()}</span></label>${colorSpecific}${offsets([['color','Color']])}</section><section class="inspector-section"><div class="section-title">OPACITY & BLENDING</div>${dualRange('Opacity','opacityMin','opacityMax',l.opacityMin,l.opacityMax,0,1,.01)}<label>Objects within layer${select('objectBlend',l.objectBlend,modes)}</label>${offsets([['opacity','Opacity']])}</section>${vectorControls(l,range)}<section class="inspector-section"><button data-action="delete" class="danger full">Delete layer</button></section>`;
+ $('#inspector').innerHTML=`<section class="inspector-section layer-source"><label><span class="field-label">Layer name</span><input type="text" data-key="name" maxlength="70" value="${escape(l.name)}"></label><label><span class="field-label">SVG library</span><select id="layer-library" aria-label="SVG from library" title="${escape(source?.name||'Choose SVG')}">${libraryOptions(source?.libraryId)}</select></label><div class="source-summary"><span title="${escape(source?.name||'No SVG selected')}">${source?'Object groups: '+source.shapes.length:'No SVG selected'}</span><button data-action="import">${source?'Replace SVG':'Import SVG'}</button></div></section><section class="inspector-section"><div class="section-title">DISTRIBUTION</div><div class="preset-options">${presets.map(([key,icon,label])=>`<button data-preset="${key}" class="${l.preset===key?'active':''}" aria-pressed="${l.preset===key}"><span>${icon}</span>${label}</button>`).join('')}</div><label><span class="field-label">Global seed</span><div class="seed-row">${input('seed',l.seed,'min="-2147483647" max="2147483647" step="1"')}<button data-action="seed" aria-label="New seed">⟳</button></div></label>${placement}</section><section class="inspector-section"><div class="section-title">SIZE & ROTATION</div>${dualRange('Size multiplier, ×','sizeMin','sizeMax',l.sizeMin,l.sizeMax,.01,10,.01)}<label><span class="field-label">Rotation</span>${select('rotation',l.rotation,[['none','No rotation'],['quarter','0° / 90° / 180° / 270°'],['free','Free 0–360°']])}</label></section><section class="inspector-section"><div class="section-title">COLOR</div><label><span class="field-label">Mode</span>${select('colorMode',l.colorMode,[['solid','Solid'],['hue','Hue offset range'],['gradient','2 color gradient']])}</label><label class="color-label">Primary color<input type="color" data-key="color" value="${l.color}"><span>${l.color.toUpperCase()}</span></label>${colorSpecific}</section><section class="inspector-section"><div class="section-title">OPACITY & BLENDING</div>${dualRange('Opacity','opacityMin','opacityMax',l.opacityMin,l.opacityMax,0,1,.01)}<label><span class="field-label">Objects within layer</span>${select('objectBlend',l.objectBlend,modes)}</label></section>${vectorControls(l,range)}`;
 }
 function fit(){const wrap=$('#stage-wrap'),padding=getComputedStyle(wrap),availableW=Math.max(120,wrap.clientWidth-parseFloat(padding.paddingLeft)-parseFloat(padding.paddingRight)-2),availableH=Math.max(120,wrap.clientHeight-parseFloat(padding.paddingTop)-parseFloat(padding.paddingBottom)-2),factor=Math.min(availableW/state.width,availableH/state.height)*state.zoom;$('#stage').style.width=state.width*factor+'px';$('#stage').style.height=state.height*factor+'px';$('#zoom-label').textContent=state.zoom===1?'Fit':Math.round(state.zoom*100)+'%'}
 async function render(){
@@ -75,7 +74,6 @@ function paintLibrary(){
 }
 function libraryButtons(){
  $('#shape-set').disabled=libraryBusy;$('#composition-preset').disabled=libraryBusy;
- $('#append-set').disabled=libraryBusy||!$('#shape-set').value;
  $('#save-preset').disabled=libraryBusy;$('#import-preset').disabled=libraryBusy;
  $('#update-preset').disabled=libraryBusy||!savedPresets.some(p=>p.id===selectedPreset);
  $('#default-preset').disabled=libraryBusy||!$('#shape-set').value;
@@ -167,7 +165,6 @@ async function loadShapeSet(id,append=false){
  }catch(e){notify(e.message)}finally{libraryBusy=false;libraryButtons()}
 }
 $('#shape-set').onchange=e=>selectShapeSet(e.target.value);
-$('#append-set').onclick=()=>loadShapeSet($('#shape-set').value,true);
 function chooseTab(tab){state.tab=tab;paintInspector();schedule()}
 async function exportPNG(){
  const button=$('#export');button.disabled=true;button.textContent='Preparing PNG…';
@@ -214,13 +211,13 @@ $('#inspector').addEventListener('click',e=>{
  if(action==='export'){exportPNG();return}if(!l)return;
  if(action==='import'){fileLayerId=l.id;$('#svg-file').value='';$('#svg-file').click()}
  if(action==='seed'){l.seed=Math.floor(Math.random()*1000000);refresh()}
- if(action==='delete'){const idx=state.layers.indexOf(l);state.layers.splice(idx,1);state.selected=state.layers[Math.min(idx,state.layers.length-1)]?.id;refresh()}
 });
 function selectRow(e){
  const row=e.target.closest('[data-id]');if(!row)return;state.selected=+row.dataset.id;
  const l=current(),action=e.target.closest('[data-action]')?.dataset.action;
  if(action==='visibility')l.visible=!l.visible;
  else if(action==='duplicate'){const id=state.nextId++,copy={...l,id,name:`Layer ${id}`,offsets:{...l.offsets}};state.layers.splice(state.layers.indexOf(l)+1,0,copy);state.selected=id}
+ else if(action==='delete'){const idx=state.layers.indexOf(l);state.layers.splice(idx,1);state.selected=state.layers[Math.min(idx,state.layers.length-1)]?.id}
  else if(action==='up'||action==='down'){const idx=state.layers.indexOf(l),next=idx+(action==='up'?1:-1);if(next>=0&&next<state.layers.length)[state.layers[idx],state.layers[next]]=[state.layers[next],state.layers[idx]]}
  else state.tab='vector';refresh();
 }

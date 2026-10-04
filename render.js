@@ -1,4 +1,4 @@
-import {symbols,shapeSVG,svgImage} from './svg-assets.js';
+import {symbols,shapeSVG,svgImage} from './svg-assets.js?v=2';
 import {chromaticPixels,grainPixels} from './effects.js';
 import {vectorAsset} from './vector-effects.js';
 import {rasterEffect} from './raster-effects.js';

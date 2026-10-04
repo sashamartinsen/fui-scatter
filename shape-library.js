@@ -1,4 +1,4 @@
-import {parseAsset,escape} from './svg-assets.js';
+import {parseAsset,escape} from './svg-assets.js?v=2';
 export const library={sets:[],files:[]};
 const cache=new Map();
 function database(){return new Promise((resolve,reject)=>{const request=indexedDB.open('scatter-svg-library',1);request.onupgradeneeded=()=>request.result.createObjectStore('files',{keyPath:'id'});request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error)})}
