@@ -47,4 +47,10 @@ export function layerPlacements(layer,canvasWidth,canvasHeight){
  }
  return out;
 }
-export function compose(layers,w,h){return layers.filter(l=>l.visible&&l.asset).map(l=>({layer:l,placements:layerPlacements(l,w,h)}))}
+// Preset dimensions always refer to the 1200 × 1200 composition space.
+export const BASE_SIZE=1200;
+export function canvasScale(w,h){return Math.min(w,h)/BASE_SIZE}
+export function compose(layers,w,h){
+ const sx=w/BASE_SIZE,sy=h/BASE_SIZE,size=canvasScale(w,h);
+ return layers.filter(l=>l.visible&&l.asset).map(l=>({layer:l,placements:layerPlacements(l,BASE_SIZE,BASE_SIZE).map(p=>({...p,matrix:p.matrix.map((v,i)=>v*(i===4?sx:i===5?sy:size))}))}));
+}

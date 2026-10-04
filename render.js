@@ -1,3 +1,4 @@
+import {canvasScale} from './engine.js?v=2';
 import {symbols,shapeSVG,svgImage} from './svg-assets.js?v=2';
 import {chromaticPixels,grainPixels} from './effects.js';
 import {vectorAsset} from './vector-effects.js';
@@ -27,7 +28,7 @@ export async function rasterComposition(composition,state,scale=1,cache=null){
   if(!lc){
   const layer={...original,asset:vectorAsset(original)};
   lc=canvas(w,h);const lctx=lc.getContext('2d');
-  const resolutions=layer.asset.shapes.map(shape=>rasterResolution(shape,layer.sizeMax,scale));
+  const resolutions=layer.asset.shapes.map(shape=>rasterResolution(shape,layer.sizeMax,scale*canvasScale(state.width,state.height)));
   const masks=[];await Promise.all([...new Set(placements.map(p=>p.shape))].map(async i=>masks[i]=await mask(layer.asset,i,resolutions[i])));
   const tint=canvas(64,64),tctx=tint.getContext('2d');let lastKey='';
   lctx.globalCompositeOperation=canvasBlend[layer.objectBlend];lctx.imageSmoothingQuality='high';
@@ -48,6 +49,7 @@ export function createPreviewRenderer(budget=96*1024*1024){
  return {render:(composition,state,scale)=>rasterComposition(composition,state,scale,cache),stats:()=>({hits,misses,bytes,layers:entries.size}),clear(){entries.clear();bytes=0}};
 }
 export function postprocess(source,effects,scale=1){
+ scale*=canvasScale(source.width/scale,source.height/scale);
  const w=source.width,h=source.height,ctx=source.getContext('2d',{willReadFrequently:true});
  const apply=name=>{if(!effects[name])return;const raw=ctx.getImageData(0,0,w,h);raw.data.set(rasterEffect(raw.data,w,h,name,effects,scale));ctx.putImageData(raw,0,0)};
  for(const name of ['pixelStretch','pixelSort','displace','glitch','blur'])apply(name);
