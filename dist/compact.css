@@ -54,3 +54,35 @@ header .header-actions #export{background:transparent;color:var(--text);border:1
 header .header-actions #export:hover{background:var(--raised)}
 @media(max-width:1050px){header>.header-actions{gap:6px}header .header-actions #randomize-all,header .header-actions #export{min-width:0;padding:0 10px;font-size:12px}}
 @media(max-width:600px){header{grid-template-columns:1fr;padding:0 8px}.header-identity{display:none}header>.header-actions{grid-column:1}header .header-actions #randomize-all,header .header-actions #export{min-width:0}}
+
+/* Keep parameter names beside their values throughout both side panels. */
+:where(.library-panel,.canvas-settings,.inspector-section,#preset-form) label:has(> :is(select,input[type=number],input[type=text],.seed-row)){
+ display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);align-items:center;column-gap:8px;row-gap:0;min-height:28px;line-height:1.3;
+}
+:where(.library-panel,.canvas-settings,.inspector-section,#preset-form) label:has(> input[type=number]){grid-template-columns:minmax(0,1fr) 88px}
+:where(.library-panel,.canvas-settings,.inspector-section,#preset-form) label> :is(select,input[type=number],input[type=text],.seed-row){min-width:0;width:100%;margin:0}
+.library-panel label:has(> select){grid-template-columns:52px minmax(0,1fr);column-gap:6px}
+.range-field .pair label:has(> input[type=number]){grid-template-columns:auto minmax(0,1fr);column-gap:6px}
+.range-field .pair{gap:8px}.range-heading{margin-bottom:4px}
+.inspector-section .pair label:has(> input[type=number]){grid-template-columns:max-content minmax(0,1fr);column-gap:6px}
+.padding-controls label:has(> input[type=number]){grid-template-columns:minmax(0,1fr) 60px;min-height:24px}
+.canvas-settings .pair{gap:6px}
+.canvas-settings .pair label:has(> input[type=number]){grid-template-columns:auto minmax(0,1fr);column-gap:4px}
+.canvas-settings .pair input[type=number]{padding:3px 4px}
+.field-label{min-width:0}
+.canvas-settings .pair label:has(> input[type=number]){grid-template-columns:max-content minmax(0,1fr)}
+.inspector-section label:has(> .seed-row){grid-template-columns:minmax(0,1fr) minmax(0,1.4fr)}
+.fx-controls label:has(> input[type=number]),.inspector-section label.offset:has(> input[type=number]){grid-template-columns:minmax(0,1fr) 104px}
+@media(max-width:1050px){.canvas-settings .pair{grid-template-columns:1fr}.canvas-settings .pair label:has(> input[type=number]){grid-template-columns:minmax(0,1fr) 76px}}
+
+/* Keep layer operations together in one compact row. */
+.layer-actions button[data-action="up"],.layer-actions button[data-action="down"]{flex:0 0 18px;padding:1px 2px}
+.layer-actions button[data-action="duplicate"],.layer-actions button[data-action="delete"]{flex:1 1 auto;min-width:0}
+
+/* SVG source controls use three short rows without a repeated file card. */
+.layer-source{padding:6px 10px;gap:3px}
+.layer-source label:has(> :is(select,input[type=text])){grid-template-columns:78px minmax(0,1fr);min-height:24px;column-gap:6px}
+.layer-source input[type=text],.layer-source select{height:24px;padding:3px 5px}
+.source-summary{display:flex;align-items:center;justify-content:space-between;gap:6px;min-width:0}
+.source-summary>span{color:var(--muted);font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.source-summary button{height:23px;padding:2px 8px;font-size:11px;flex-shrink:0}

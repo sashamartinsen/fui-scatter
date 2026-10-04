@@ -39,7 +39,10 @@ export async function parseAsset(text,name){
  svg.setAttribute('xmlns',NS);svg.style.cssText='position:fixed;left:-100000px;top:0;width:1000px;height:1000px;visibility:hidden;pointer-events:none';
  document.body.append(svg);
  try{
-  const rootInverse=svg.getCTM().inverse();
+  // Measure from a child in root user units. Firefox's root getCTM()
+  // differs from descendant getCTM() when a viewBox scales the viewport.
+  const reference=document.createElementNS(NS,'g');svg.append(reference);
+  const rootInverse=reference.getCTM().inverse();reference.remove();
   const boxes=groups.map(g=>{
    const b=g.getBBox(),m=rootInverse.multiply(g.getCTM());
    const corners=[[b.x,b.y],[b.x+b.width,b.y],[b.x,b.y+b.height],[b.x+b.width,b.y+b.height]].map(([x,y])=>new DOMPoint(x,y).matrixTransform(m));

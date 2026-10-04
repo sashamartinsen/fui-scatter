@@ -1,8 +1,8 @@
 const axes=[['horizontal','Horizontal'],['vertical','Vertical']];
 function block(title,key,on,body,scope){return `<section class="inspector-section fx-block ${on?'enabled':''}"><div class="effect-heading"><strong>${title}</strong><input aria-label="Enable ${title}" type="checkbox" data-scope="${scope}" data-key="${key}" ${on?'checked':''}></div><div class="fx-controls">${body}</div></section>`}
-function choice(label,key,value,options,scope){return `<label>${label}<select data-scope="${scope}" data-key="${key}">${options.map(([v,n])=>`<option value="${v}" ${v===value?'selected':''}>${n}</option>`).join('')}</select></label>`}
+function choice(label,key,value,options,scope){return `<label><span class="field-label">${label}</span><select data-scope="${scope}" data-key="${key}">${options.map(([v,n])=>`<option value="${v}" ${v===value?'selected':''}>${n}</option>`).join('')}</select></label>`}
 function color(label,key,value){return `<label class="color-label">${label}<input aria-label="${label}" type="color" data-scope="effects" data-key="${key}" value="${value}"><span>${value.toUpperCase()}</span></label>`}
-function seed(key,value,scope,label='Seed'){return `<label>${label}<input type="number" data-scope="${scope}" data-key="${key}" min="-2147483647" max="2147483647" step="1" value="${value}"></label>`}
+function seed(key,value,scope,label='Seed'){return `<label><span class="field-label">${label}</span><input type="number" data-scope="${scope}" data-key="${key}" min="-2147483647" max="2147483647" step="1" value="${value}"></label>`}
 export function vectorControls(l,range){
  const r=(label,k,min,max,step=1)=>range(label,k,l[k],min,max,step);
  return `<div class="fx-divider">VECTOR DEFORMATION <span>Per source shape · before mirrors</span></div>`+
