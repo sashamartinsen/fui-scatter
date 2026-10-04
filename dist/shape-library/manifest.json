@@ -1,0 +1,166 @@
+[
+  {
+    "id": "b1",
+    "name": "B1",
+    "files": [
+      {
+        "id": "b1/0",
+        "name": "b1.DiagonalStripes.svg",
+        "url": "shape-library/b1/00.svg"
+      },
+      {
+        "id": "b1/1",
+        "name": "b1.GridCrosses.svg",
+        "url": "shape-library/b1/01.svg"
+      },
+      {
+        "id": "b1/2",
+        "name": "b1.LongLines.svg",
+        "url": "shape-library/b1/02.svg"
+      },
+      {
+        "id": "b1/3",
+        "name": "b1.MainOctaShapes.svg",
+        "url": "shape-library/b1/03.svg"
+      },
+      {
+        "id": "b1/4",
+        "name": "b1.P_Big.svg",
+        "url": "shape-library/b1/04.svg"
+      },
+      {
+        "id": "b1/5",
+        "name": "b1.P_Medium.svg",
+        "url": "shape-library/b1/05.svg"
+      },
+      {
+        "id": "b1/6",
+        "name": "b1.P_Small.svg",
+        "url": "shape-library/b1/06.svg"
+      },
+      {
+        "id": "b1/7",
+        "name": "b1.RectGrid.svg",
+        "url": "shape-library/b1/07.svg"
+      },
+      {
+        "id": "b1/8",
+        "name": "b1.Texts.svg",
+        "url": "shape-library/b1/08.svg"
+      }
+    ]
+  },
+  {
+    "id": "y2k",
+    "name": "Y2K",
+    "files": [
+      {
+        "id": "y2k/0",
+        "name": "y2k.Badges.svg",
+        "url": "shape-library/y2k/00.svg"
+      },
+      {
+        "id": "y2k/1",
+        "name": "y2k.BoldParts.svg",
+        "url": "shape-library/y2k/01.svg"
+      },
+      {
+        "id": "y2k/2",
+        "name": "y2k.GridDots.svg",
+        "url": "shape-library/y2k/02.svg"
+      },
+      {
+        "id": "y2k/3",
+        "name": "y2k.Japan.svg",
+        "url": "shape-library/y2k/03.svg"
+      },
+      {
+        "id": "y2k/4",
+        "name": "y2k.Lines.svg",
+        "url": "shape-library/y2k/04.svg"
+      },
+      {
+        "id": "y2k/5",
+        "name": "y2k.SkewLines.svg",
+        "url": "shape-library/y2k/05.svg"
+      },
+      {
+        "id": "y2k/6",
+        "name": "y2k.SmallParts.svg",
+        "url": "shape-library/y2k/06.svg"
+      },
+      {
+        "id": "y2k/7",
+        "name": "y2k.TextExtra.svg",
+        "url": "shape-library/y2k/07.svg"
+      },
+      {
+        "id": "y2k/8",
+        "name": "y2k.TextLOng.svg",
+        "url": "shape-library/y2k/08.svg"
+      },
+      {
+        "id": "y2k/9",
+        "name": "y2k.TextShort.svg",
+        "url": "shape-library/y2k/09.svg"
+      }
+    ]
+  },
+  {
+    "id": "fui",
+    "name": "FUI",
+    "files": [
+      {
+        "id": "fui/0",
+        "name": "FUI_V2.svg",
+        "url": "shape-library/fui/00.svg"
+      },
+      {
+        "id": "fui/1",
+        "name": "FUI_tinyParts.svg",
+        "url": "shape-library/fui/01.svg"
+      },
+      {
+        "id": "fui/2",
+        "name": "FUI_tinyPartsOld.svg",
+        "url": "shape-library/fui/02.svg"
+      }
+    ]
+  },
+  {
+    "id": "uav",
+    "name": "UAV",
+    "files": [
+      {
+        "id": "uav/0",
+        "name": "UAV_TextLabels.svg",
+        "url": "shape-library/uav/00.svg"
+      },
+      {
+        "id": "uav/1",
+        "name": "UAV_Basic01.svg",
+        "url": "shape-library/uav/01.svg"
+      },
+      {
+        "id": "uav/2",
+        "name": "UAV_BasicWithCuts.svg",
+        "url": "shape-library/uav/02.svg"
+      },
+      {
+        "id": "uav/3",
+        "name": "UAV_BGBricks.svg",
+        "url": "shape-library/uav/03.svg"
+      },
+      {
+        "id": "uav/4",
+        "name": "UAV_Long_shapes.svg",
+        "url": "shape-library/uav/04.svg"
+      },
+      {
+        "id": "uav/5",
+        "name": "UAV_SmallParts.svg",
+        "url": "shape-library/uav/05.svg"
+      }
+    ]
+  }
+]

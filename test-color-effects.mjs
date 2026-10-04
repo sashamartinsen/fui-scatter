@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {rasterEffect} from './dist/raster-effects.js';
+import {DEFAULT_EFFECTS,capturePreset,restorePreset} from './dist/composition-presets.js';
+const source=new Uint8ClampedArray([255,0,0,128,0,255,0,255,0,0,255,0,80,80,80,200]);
+const run=(kind,angle=0)=>rasterEffect(source,4,1,kind,{...DEFAULT_EFFECTS,hueShiftAngle:angle});
+assert.deepEqual(run('invert'),new Uint8ClampedArray([0,255,255,128,255,0,255,255,255,255,0,0,175,175,175,200]));
+assert.deepEqual(rasterEffect(run('invert'),4,1,'invert',DEFAULT_EFFECTS),source);
+assert.deepEqual(run('hueShift'),source);
+assert.deepEqual(run('hueShift',120),new Uint8ClampedArray([0,255,0,128,0,0,255,255,255,0,0,0,80,80,80,200]));
+assert.deepEqual(run('hueShift',-120),run('hueShift',240));
+assert.deepEqual(run('hueShift',360),source);
+const p=capturePreset({width:128,height:128,background:'#000000',blend:'normal',exportScale:1,layers:[],effects:{...DEFAULT_EFFECTS,invert:true,hueShift:true,hueShiftAngle:-75}},{id:'local:color',name:'Color',shapeSet:'fui'});
+const restored=await restorePreset(JSON.parse(JSON.stringify(p)),{});assert.equal(restored.effects.invert,true);assert.equal(restored.effects.hueShiftAngle,-75);
+const old=structuredClone(p);delete old.effects.invert;delete old.effects.hueShift;delete old.effects.hueShiftAngle;assert.equal((await restorePreset(old,{})).effects.invert,false);
+console.log('PASS: invert round trip, hue rotation, signed angles, gray/alpha preservation and preset compatibility.');

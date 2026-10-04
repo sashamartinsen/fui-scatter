@@ -1,0 +1,24 @@
+import assert from 'node:assert/strict';
+import {crtPixels} from './dist/crt-effect.js';
+import {DEFAULT_EFFECTS,capturePreset,restorePreset} from './dist/composition-presets.js';
+const neutral={...DEFAULT_EFFECTS,crtPixelSize:1,crtScanlines:0,crtMask:0,crtVignette:0,crtSharpen:0};
+const d=new Uint8ClampedArray([20,40,80,255,100,120,160,255,200,220,240,255,40,60,100,255]);
+assert.deepEqual(crtPixels(d,4,1,neutral),d);
+const flat=crtPixels(d,4,1,{...neutral,crtPixelSize:2});
+assert.deepEqual([...flat.slice(0,4)],[60,80,120,255]);
+assert.deepEqual(flat.slice(0,4),flat.slice(4,8));
+const effect={...DEFAULT_EFFECTS,crt:true,crtPixelSize:2};
+assert.deepEqual(crtPixels(d,4,1,effect),crtPixels(d,4,1,effect));
+assert.notDeepEqual(crtPixels(d,4,1,effect),d);
+const edge=new Uint8ClampedArray([80,80,80,255,160,160,160,255,80,80,80,255]);
+assert.ok(crtPixels(edge,3,1,{...neutral,crtSharpen:2})[4]>160);
+const translucent=new Uint8ClampedArray([200,80,40,128,0,0,0,0]);
+const result=crtPixels(translucent,2,1,{...neutral,crtPixelSize:2});
+assert.equal(result[0],200);assert.equal(result[3],128);assert.equal(result[7],0);
+assert.deepEqual(d,new Uint8ClampedArray([20,40,80,255,100,120,160,255,200,220,240,255,40,60,100,255]));
+console.log('PASS: CRT neutral settings, pixel averaging, deterministic scan/mask, sharpening, alpha and immutable input.');
+
+const preset=capturePreset({width:128,height:128,background:'#000000',blend:'normal',exportScale:2,layers:[],effects:{...effect,crtSharpen:2.5}},{id:'local:test',name:'CRT',shapeSet:'fui'});
+const restored=await restorePreset(JSON.parse(JSON.stringify(preset)),{});assert.equal(restored.effects.crt,true);assert.equal(restored.effects.crtSharpen,2.5);
+const old=structuredClone(preset);for(const key of Object.keys(old.effects))if(key.startsWith('crt'))delete old.effects[key];assert.equal((await restorePreset(old,{})).effects.crt,false);
+console.log('PASS: CRT preset round trip and older preset compatibility.');

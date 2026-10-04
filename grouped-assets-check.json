@@ -1,0 +1,83 @@
+{
+  "b1/08.svg": {
+    "name": "b1.Texts.svg",
+    "groups": 19,
+    "leaves": 164,
+    "geometry_hash": "21bcce2d9bc292697e9f77e364664efec8fb3f285e0907135e43380cf49fed61"
+  },
+  "fui/00.svg": {
+    "name": "FUI_V2.svg",
+    "groups": 21,
+    "leaves": 629,
+    "geometry_hash": "00aba6d3e30364f94317e8ecbd2cd7b19baa60bf8268f86c67db131d4074da1d"
+  },
+  "uav/00.svg": {
+    "name": "UAV_TextLabels.svg",
+    "groups": 21,
+    "leaves": 241,
+    "geometry_hash": "0443b1cbddda845c95db069e65bbfdb2c0c58c246b658f57bc6fa6509981894c"
+  },
+  "b1/00.svg": {
+    "name": "b1.DiagonalStripes.svg",
+    "groups": 7,
+    "leaves": 74,
+    "geometry_hash": "a3580c4b21fd47a00ca34a6f61c4e6a2509f8247395ba966437a340511e095b2",
+    "style": ".cls-1{fill:#f1f2f2;}"
+  },
+  "b1/03.svg": {
+    "name": "b1.MainOctaShapes.svg",
+    "groups": 19,
+    "leaves": 30,
+    "geometry_hash": "4f210ef4a7c795995d2981f87dfe75416f2bf1e217d40e13ca616d693ce4a034",
+    "style": ".cls-1{fill:#f1f2f2;}"
+  },
+  "b1/07.svg": {
+    "name": "b1.RectGrid.svg",
+    "groups": 8,
+    "leaves": 29,
+    "geometry_hash": "a8bbbeb4093c152a40f2e415d9a2ec0972eb167a4587c0f36422802751570e28",
+    "style": ".cls-1{fill:#f1f2f2;}"
+  },
+  "b1/04.svg": {
+    "name": "b1.P_Big.svg",
+    "groups": 9,
+    "leaves": 17,
+    "geometry_hash": "e26e1f15b06e8ae5ca754d1c3937d26c2a3369d0d13fbb5a0edcd421c50e9e0e",
+    "style": ".cls-1{fill:#f1f2f2;}"
+  },
+  "b1/05.svg": {
+    "name": "b1.P_Medium.svg",
+    "groups": 14,
+    "leaves": 24,
+    "geometry_hash": "4d227d9cce60e59c02e33b6d15ec52f621ebb8062407ee41ad84c44a7a5be060",
+    "style": ".cls-1{fill:#f1f2f2;}"
+  },
+  "b1/06.svg": {
+    "name": "b1.P_Small.svg",
+    "groups": 23,
+    "leaves": 81,
+    "geometry_hash": "576674cad98232108a1b84189d82e79b864587ead62f4deab71496cffae704ac",
+    "style": ".cls-1{fill:#f1f2f2;}"
+  },
+  "b1/01.svg": {
+    "name": "b1.GridCrosses.svg",
+    "groups": 8,
+    "leaves": 72,
+    "geometry_hash": "dcb80c870000f970b165d17274a2009824afe68d4b0948e7579bc6ea82993a04",
+    "style": ".cls-1{fill:#f1f2f2;}"
+  },
+  "uav/03.svg": {
+    "name": "UAV_BGBricks.svg",
+    "groups": 10,
+    "leaves": 27,
+    "geometry_hash": "39d970e199f118eb02aa906cd6a227217be755fd33b4366e5e612f3ead32d555",
+    "style": ".cls-1{fill:#fff;}.cls-2{opacity:0.1;}"
+  },
+  "uav/05.svg": {
+    "name": "UAV_SmallParts.svg",
+    "groups": 5,
+    "leaves": 12,
+    "geometry_hash": "20154157d4c0daed9b44a7644e9a5b3c34585b97ca60a8a6a8adf93a37e0adb2",
+    "style": ".cls-1{fill:#fff;}"
+  }
+}
