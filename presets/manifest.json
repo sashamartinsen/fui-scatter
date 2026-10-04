@@ -1,0 +1,51 @@
+[
+  {
+    "id": "b1-verge-ep-cover-art",
+    "name": "B1-Verge EP Cover-art",
+    "shapeSet": "b1",
+    "url": "presets/b1-verge-ep-cover-art.scatter.json",
+    "default": true
+  },
+  {
+    "id": "y2k-default-mirror",
+    "name": "Y2K-Default-Mirror",
+    "shapeSet": "y2k",
+    "url": "presets/y2k-default-mirror.scatter.json",
+    "default": true
+  },
+  {
+    "id": "y2k-echo",
+    "name": "Y2K-Echo",
+    "shapeSet": "y2k",
+    "url": "presets/y2k-echo.scatter.json",
+    "default": false
+  },
+  {
+    "id": "y2k-hex",
+    "name": "Y2K-Hex",
+    "shapeSet": "y2k",
+    "url": "presets/y2k-hex.scatter.json",
+    "default": false
+  },
+  {
+    "id": "fui-default",
+    "name": "FUI-Default",
+    "shapeSet": "fui",
+    "url": "presets/fui-default.scatter.json",
+    "default": true
+  },
+  {
+    "id": "fui-pixelrandom",
+    "name": "FUI-PixelRandom",
+    "shapeSet": "fui",
+    "url": "presets/fui-pixelrandom.scatter.json",
+    "default": false
+  },
+  {
+    "id": "uav-default",
+    "name": "UAV-Default",
+    "shapeSet": "uav",
+    "url": "presets/uav-default.scatter.json",
+    "default": true
+  }
+]

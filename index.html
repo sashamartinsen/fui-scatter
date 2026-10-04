@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FUI SCATTER — SVG generator</title>
+<meta name="description" content="Modular SVG composition generator with layers, mirrors, kaleidoscope and post effects.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314191c'/%3E%3Cpath d='M8 8h6v6H8zm10 0h6v6h-6zM8 18h6v6H8zm10 0h6v6h-6z' fill='%23c6f277'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="compact.css?v=5"><script type="module" src="app.js?v=5"></script>
+</head>
+<body>
+<header><div class="header-identity"><div class="brand"><span class="brandmark">✣</span><strong>FUI<span>SCATTER</span></strong><span class="edition">01</span></div><div class="headnote">Vector composition generator</div></div><div class="header-actions"><button id="randomize-all" title="Generate new seeds for every layer">↻ Randomize all</button><button id="export">Export PNG</button></div></header>
+<main>
+<aside class="left">
+<div class="panel-heading"><span>LAYERS</span><span id="layer-count" class="badge">3</span><button id="add-layer" class="icon-button" aria-label="Add layer">＋</button></div>
+<div class="library-panel"><label>Shape Set<select id="shape-set"><option value="">Custom composition</option></select></label><label>Preset<select id="composition-preset"><option value="">Standard</option></select></label><div class="preset-actions"><button id="save-preset">Save as…</button><button id="update-preset" disabled>Update</button><button id="import-preset">Import…</button></div><button id="default-preset" disabled>Save as default</button><button id="append-set" disabled>Add set to composition</button><p class="hint" id="library-status">Loading library…</p></div>
+<div id="layers"></div><button id="add-layer-bottom" class="add-button">＋ Add layer</button>
+<div class="canvas-settings"><div class="section-title">CANVAS</div><div class="pair"><label>Width<input id="width" type="number" min="128" max="4096" step="1" value="1200"></label><label>Height<input id="height" type="number" min="128" max="4096" step="1" value="1200"></label></div><label class="color-label">Background <input id="background" type="color" value="#0d1619"><span id="background-hex">#0D1619</span></label><label>Layer blending<select id="canvas-blend"><option value="normal">Normal</option><option value="additive">Additive</option><option value="multiply">Multiply</option></select></label></div>
+<div class="side-foot"><span class="dot"></span> Runs in your browser</div>
+</aside>
+<section class="workspace">
+<div class="workspace-toolbar"><div class="segmented"><button id="vector-tab" class="active">Layers</button><button id="effects-tab">Post effects</button></div><div class="zoom-control"><button id="zoom-out" aria-label="Zoom out">−</button><span id="zoom-label">Fit</span><button id="zoom-in" aria-label="Zoom in">＋</button><button id="zoom-fit" aria-label="Fit canvas">⤢</button></div></div>
+<div id="stage-wrap"><div id="stage"><canvas id="raster-preview" aria-label="Composition"></canvas><div id="rendering" hidden>Processing…</div></div></div>
+<div class="workspace-footer"><span id="canvas-info">1200 × 1200</span><span id="render-info">Canvas preview</span><span id="object-count">0 objects</span></div>
+</section>
+<aside class="right"><div class="panel-heading"><span id="inspector-title">LAYER SETTINGS</span><span id="selected-index" class="badge">01</span></div><div id="inspector"></div></aside>
+</main>
+<dialog id="preset-dialog"><form id="preset-form"><h3>Save composition preset</h3><label>Preset name<input id="preset-name" type="text" maxlength="80" required autocomplete="off"></label><p class="hint">Saved in this browser and downloaded as a portable .scatter.json file.</p><div class="pair"><button type="button" id="preset-cancel">Cancel</button><button type="submit" class="primary">Save & download</button></div></form></dialog><input id="preset-file" type="file" accept=".json,application/json" hidden><input id="svg-file" type="file" accept=".svg,image/svg+xml" hidden><div id="toast" role="status" hidden></div>
+</body></html>
