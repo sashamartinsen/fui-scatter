@@ -41,3 +41,8 @@ The application starts with B1-Verge EP Cover-art. Seven bundled presets are ava
 GitHub Pages serves the `gh-pages` branch. The `main` branch contains the application in `dist/` and its checks. To publish an update after testing, run `git subtree split --prefix dist -b pages-next`, then `git push origin pages-next:gh-pages`. The app uses relative URLs and works under the repository path. No backend or build dependencies are needed.
 
 Canvas resizing uses a fixed 1200 × 1200 composition space. Preset values stay unchanged: placements and edge insets follow width/height ratios, shapes retain uniform proportions using the smaller ratio, and spatial raster effects use that same ratio in preview and PNG export. Density therefore preserves placement count at every output size. `node test-canvas-scaling.mjs` covers every distribution, exact base-size compatibility, square and rectangular output, mirrored scales, deterministic attributes and immutable preset settings.
+
+## License
+
+Source code is licensed under the MIT License.
+Original visual assets, shape sets and designs are licensed under CC BY 4.0.
