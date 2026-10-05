@@ -45,4 +45,5 @@ Canvas resizing uses a fixed 1200 × 1200 composition space. Preset values stay 
 ## License
 
 Source code is licensed under the MIT License.
+
 Original visual assets, shape sets and designs are licensed under CC BY 4.0.
